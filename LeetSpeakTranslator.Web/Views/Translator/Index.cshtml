@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>LeetSpeak Translator</h2>
+
+<form id="translateForm">
+    <label for="inputText">Enter your text:</label><br />
+    <textarea id="inputText" name="inputText" rows="4" cols="50"></textarea><br />
+    <button type="submit">Translate</button>
+</form>
+
+<br />
+<div id="resultArea" style="font-weight: bold; color: green;"></div>
+<div id="errorArea" style="color: red;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#translateForm').submit(function (e) {
+            e.preventDefault(); // prevent form from submitting normally
+
+            var input = $('#inputText').val();
+
+            $.ajax({
+                url: '/Translator/Translate',
+                type: 'POST',
+                data: { inputText: input },
+                success: function (response) {
+                    if (response.success) {
+                        $('#resultArea').html('Translated: ' + response.translated);
+                        $('#errorArea').html('');
+                    } else {
+                        $('#resultArea').html('');
+                        $('#errorArea').html(response.error);
+                    }
+                },
+                error: function () {
+                    $('#resultArea').html('');
+                    $('#errorArea').html('Something went wrong.');
+                }
+            });
+        });
+    });
+</script>

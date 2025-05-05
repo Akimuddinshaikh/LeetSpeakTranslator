@@ -1,0 +1,68 @@
+﻿@model IEnumerable<LeetSpeakTranslator.Web.Models.TranslationRecord>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>History</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        $('#translationsTable').DataTable();
+    });
+    </script>
+
+</head>
+<body>
+    <p>
+        <a href="@Url.Action("ExportToCsv", "Translator")" class="btn btn-primary">Export to CSV</a>
+    </p>
+
+    <table id="translationsTable" class="display">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OriginalText)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TranslatedText)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.OriginalText)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TranslatedText)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table.dataTable {
+            width: 100% !important;
+        }
+    </style>
+
+</body>
+</html>
